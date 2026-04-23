@@ -525,6 +525,187 @@
         </div>
     </div>
 
+
+
+
+    <div style="margin: 30px 0;">
+        <h2 style="text-align: center; margin-bottom: 25px; color: #333;">Demo 3:</h2>
+        <!-- 第一行: Original, Word, Phrase -->
+        <div class="flex-container">
+            <!-- 原始版本 -->
+            <div class="flex-item">
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(135deg, #4CAF50, #2E7D32);">
+                        Original song
+                    </div>
+                    <div class="card-body">
+                        <div class="lyrics-box">
+                            <strong>Lyrics:</strong><br><br>
+                            &lt;Verse&gt;<br>
+                            流水潺潺牧笛悠悠几许风在吹<br>
+                            古道巷陌看不尽憔悴<br>
+                            残院深深断垣层层斑驳谁的泪<br>
+                            满地荒叶片片沉默了年岁<br>
+                            &lt;Chorus&gt;<br>
+                            道离别离别时重温酒一杯<br>
+                            就算粉身碎骨我也不后悔<br>
+                            说伤悲伤悲后笑着化成灰<br>
+                            北风吹落花美无悔
+                        </div>
+                        <div class="audio-label">🎹 Melody:</div>
+                        <audio controls src="Demos/original_melody3.wav"></audio>
+                        <div class="audio-label">🎤 Singing:</div>
+                        <audio controls src="Demos/original_singing3.wav"></audio>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Word级编辑 -->
+            <div class="flex-item">
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(135deg, #2196F3, #1565C0);">
+                        Word-level editing
+                    </div>
+                    <div class="card-body">
+                        <div class="lyrics-box">
+                            <strong>Lyrics:</strong><br><br>
+                            &lt;Verse&gt;<br>
+                            流水潺潺牧笛悠悠几许风在吹<br>
+                            古道巷陌<span class="modified-text">写满</span>憔悴<br>
+                            残院深深断垣层层斑驳谁的泪<br>
+                            满地荒叶片片沉默了年岁<br>
+                            &lt;Chorus&gt;<br>
+                            道离别离别时重温酒一杯<br>
+                            就算粉身碎骨我也不后悔<br>
+                            说伤悲伤悲后笑着化成灰<br>
+                            北风吹落花美无悔
+                        </div>
+                        <div class="audio-label">🎹 Melody:</div>
+                        <audio controls src="Demos/word_edit_melody3.wav"></audio>
+                        <div class="audio-label">🎤 Singing:</div>
+                        <audio controls src="Demos/word_edit_singing3.wav"></audio>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Phrase级编辑 -->
+            <div class="flex-item">
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(135deg, #FF9800, #E65100);">
+                        Phrase-level editing
+                    </div>
+                    <div class="card-body">
+                        <div class="lyrics-box">
+                            <strong>Lyrics:</strong><br><br>
+                            &lt;Verse&gt;<br>
+                            流水潺潺牧笛悠悠几许风在吹<br>
+                            古道巷陌看不尽憔悴<br>
+                            残院深深断垣层层斑驳谁的泪<br>
+                            满地荒叶片片沉默了年岁<br>
+                            &lt;Chorus&gt;<br>
+                            道离别离别时重温酒一杯<br>
+                            <span class="modified-text">纵然万劫不复我也奉陪</span><br>
+                            说伤悲伤悲后笑着化成灰<br>
+                            北风吹落花美无悔
+                        </div>
+                        <div class="audio-label">🎹 Melody:</div>
+                        <audio controls src="Demos/phrase_edit_melody3.wav"></audio>
+                        <div class="audio-label">🎤 Singing:</div>
+                        <audio controls src="Demos/phrase_edit_singing3.wav"></audio>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 第二行: Sentence, Section, Song -->
+        <div class="flex-container">
+            <!-- Sentence级编辑 -->
+            <div class="flex-item">
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(135deg, #9C27B0, #6A1B9A);">
+                        Sentence-level editing
+                    </div>
+                    <div class="card-body">
+                        <div class="lyrics-box">
+                            <strong>Lyrics:</strong><br><br>
+                            &lt;Verse&gt;<br>
+                            流水潺潺牧笛悠悠几许风在吹<br>
+                            古道巷陌看不尽憔悴<br>
+                            <span class="modified-text">空庭黯黯朽壁离离霜凝谁的悔</span><br>
+                            <span class="modified-text">碎叶萧萧葬送了光阴</span><br>
+                            &lt;Chorus&gt;<br>
+                            道离别离别时重温酒一杯<br>
+                            就算粉身碎骨我也不后悔<br>
+                            说伤悲伤悲后笑着化成灰<br>
+                            北风吹落花美无悔
+                        </div>
+                        <div class="audio-label">🎹 Melody:</div>
+                        <audio controls src="Demos/sentence_edit_melody3.wav"></audio>
+                        <div class="audio-label">🎤 Singing:</div>
+                        <audio controls src="Demos/sentence_edit_singing3.wav"></audio>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section级编辑 -->
+            <div class="flex-item">
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(135deg, #E91E63, #AD1457);">
+                        Section-level editing
+                    </div>
+                    <div class="card-body">
+                        <div class="lyrics-box">
+                            <strong>Lyrics:</strong><br><br>
+                            &lt;Verse&gt;<br>
+                            流水潺潺牧笛悠悠几许风在吹<br>
+                            古道巷陌看不尽憔悴<br>
+                            残院深深断垣层层斑驳谁的泪<br>
+                            满地荒叶片片沉默了年岁<br>
+                            &lt;Chorus&gt;<br>
+                            <span class="modified-text">敬离愁离愁后摔碎这酒杯</span><br>
+                            <span class="modified-text">纵使万劫不复我亦不皱眉</span><br>
+                            <span class="modified-text">将心碎碾成粉扬了随风吹</span><br>
+                            <span class="modified-text">寒枝抖落残红无怨无悔</span>
+                        </div>
+                        <div class="audio-label">🎹 Melody:</div>
+                        <audio controls src="Demos/section_edit_melody3.wav"></audio>
+                        <div class="audio-label">🎤 Singing:</div>
+                        <audio controls src="Demos/section_edit_singing3.wav"></audio>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Song级编辑 -->
+            <div class="flex-item">
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(135deg, #F44336, #C62828);">
+                        Song-level editing
+                    </div>
+                    <div class="card-body">
+                        <div class="lyrics-box">
+                            <strong>Lyrics:</strong><br><br>
+                            &lt;Verse&gt;<br>
+                            <span class="modified-text">流水无声牧笛已冷风吹旧柴门</span><br>
+                            <span class="modified-text">古道尽头爬满憔悴的皱纹</span><br>
+                            <span class="modified-text">残墙半塌断瓦层层苔痕锁泪痕</span><br>
+                            <span class="modified-text">满地荒叶替岁月守着孤坟</span><br>
+                            &lt;Chorus&gt;<br>
+                            <span class="modified-text">若离别先饮尽这杯断肠酒</span><br>
+                            <span class="modified-text">哪怕碎成灰我也绝不回首</span><br>
+                            <span class="modified-text">若伤悲就让我笑着烧成秋</span><br>
+                            <span class="modified-text">北风卷落花不回头也无悔</span>
+                        </div>
+                        <div class="audio-label">🎹 Melody:</div>
+                        <audio controls src="Demos/song_edit_melody3.wav"></audio>
+                        <div class="audio-label">🎤 Singing:</div>
+                        <audio controls src="Demos/song_edit_singing3.wav"></audio>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+	
 </section>
 <br>
 
