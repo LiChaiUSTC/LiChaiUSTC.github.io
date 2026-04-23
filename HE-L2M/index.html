@@ -1,0 +1,714 @@
+<html>
+<head>
+    <link rel="shortcut icon" type="image/png" href="./icon.png" />
+    <title>HE-L2M</title>
+    <style>
+        .flex-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .flex-item {
+            width: calc(33.33% - 20px);
+            padding: 0;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+        p {
+            font-size: 15pt;
+        }
+        pre {
+            font-size: 11pt;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: monospace;
+        }
+        hr {
+            margin: 20px 0;
+        }
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background: white;
+            overflow: hidden;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .card-header {
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .card-body {
+            padding: 15px;
+            flex: 1;
+        }
+        .lyrics-box {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 12px;
+            font-size: 11pt;
+            line-height: 1.5;
+        }
+        .audio-label {
+            font-size: 12pt;
+            margin: 10px 0 5px 0;
+            font-weight: bold;
+        }
+        audio {
+            width: 100%;
+            margin-bottom: 8px;
+        }
+        .modified-text {
+            color: red;
+        }
+        
+        @media (max-width: 1200px) {
+            .flex-item {
+                width: calc(33.33% - 15px);
+            }
+        }
+        @media (max-width: 900px) {
+            .flex-item {
+                width: calc(50% - 15px);
+            }
+        }
+        @media (max-width: 600px) {
+            .flex-item {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+	
+<body>
+<br>
+<div style="text-align: center;">
+    <span style="font-size:38px"><b>HE-L2M</b><br></span>
+    <span style="font-size:28px"><b>Hierarchical Editable Lyric-to-Melody Generation with Structural Conditioning</b><br></span>
+    <br>
+    <div style="text-align: center;">
+        <span style="font-size:18px">
+            Submitted to <a href="https://2026.acmmm.org/">ACM MM 2026</a>
+        </span>
+    </div>
+</div>
+
+<table align=center width=950px>
+    <tr>
+        <td>
+            <div style="text-align: center;">
+                <img class="round" width="950px" src="Demos/framework.jpg" alt="Framework"/>
+            </div>
+            <br>
+        </td>
+    </tr>
+    <tr>
+        <td style="font-size:15pt; text-align:justify">
+            Lyric-to-melody generation is an important yet highly challenging task in automatic songwriting. We study the problem of editable lyric-to-melody generation, motivated by the iterative nature of real-world music creation, where lyrics and melodies are frequently revised while preserving surrounding musical context. However, existing methods primarily focus on generation from scratch and lack support for flexible editing, leaving this problem under-explored. In this paper, we propose HE-L2M, a novel hierarchical editable lyric-to-melody generation framework that provides a unified formulation for lyric-to-melody generation and editing by modeling melody editing as a lyric-conditioned infilling problem, enabling flexible modifications across multiple structural levels (word, phrase, sentence, section, and song) while maintaining global musical coherence and accurate lyric-melody alignment. Specifically, we introduce a hierarchical lyric-melody alignment modeling approach to capture accurate lyric-melody alignment, and develop a lyric-conditioned melody infilling Transformer that leverages bidirectional melodic contexts via a reordered decoding strategy. We further incorporate structural conditioning with reference phrases and phrase-level musical attributes to enhance controllability and structural consistency, and adopt a curriculum learning strategy to effectively train the model across diverse hierarchical editing tasks. Extensive experiments demonstrate that HE-L2M achieves superior performance in both melody generation and editing across objective and subjective evaluations. 
+        </td>
+    </tr>
+</table>
+<br>
+<hr>
+	
+<section id="section0">
+    <header style="text-align: center;font-size: 30pt"><b>Hierarchical Editing</b></header>
+        <span style="font-size:15pt">
+            Our HE-L2M supports flexible multi-level editing (word, phrase, sentence, section, and song) under user-specified modifications (lyric revisions, melody refinements, and musical attribute adjustments), while preserving global musical coherence and accurate lyric-melody alignment.
+        <br></span>
+
+    <div style="text-align: center; margin: 20px 0;">
+        <span style="font-size:25pt">
+            <b>Lyric Revisions</b>
+        </span>
+    </div>
+
+    <div style="margin: 30px 0;">
+        <h2 style="text-align: center; margin-bottom: 25px; color: #333;">Demo 1:</h2>
+        <!-- 第一行: Original, Word, Phrase -->
+        <div class="flex-container">
+            <!-- 原始版本 -->
+            <div class="flex-item">
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(135deg, #4CAF50, #2E7D32);">
+                        Original song
+                    </div>
+                    <div class="card-body">
+                        <div class="lyrics-box">
+                            <strong>Lyrics:</strong><br><br>
+                            &lt;Verse&gt;<br>
+                            当故事慢慢都被讲成回忆 爱情它渐渐的沦为成伤心<br>
+                            如果剧情早已经是注定 又何必再费力气<br>
+                            曾经的你现在会是在哪里 此刻的你是否还在想起<br>
+                            美好的回忆像电影划过 为何就此的放手<br>
+                            &lt;Chorus&gt;<br>
+                            如果说你说爱我时说的那么用心 那么说在你离开我时走的太狠心<br>
+                            你走了以后我还在这里 只是一个被遗弃的道具<br>
+                            如果说你给了太多忘不了的甜蜜 错只错在分开时抱你抱的太用力<br>
+                            我走了以后你还在这里 和他开始了另一场电影
+                        </div>
+                        <div class="audio-label">🎹 Melody:</div>
+                        <audio controls src="Demos/original_melody1.wav"></audio>
+                        <div class="audio-label">🎤 Singing:</div>
+                        <audio controls src="Demos/original_singing1.wav"></audio>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Word级编辑 -->
+            <div class="flex-item">
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(135deg, #2196F3, #1565C0);">
+                        Word-level editing
+                    </div>
+                    <div class="card-body">
+                        <div class="lyrics-box">
+                            <strong>Lyrics:</strong><br><br>
+                            &lt;Verse&gt;<br>
+                            当故事慢慢都被讲成回忆 爱情它渐渐的沦为成伤心<br>
+                            如果剧情早已经是注定 又何必再费力气<br>
+                            曾经的你现在会是在哪里 此刻的你是否还<span class="modified-text">总会</span>想起<br>
+                            美好的回忆像电影划过 为何就此的放手<br>
+                            &lt;Chorus&gt;<br>
+                            如果说你说爱我时说的那么用心 那么说在你离开我时走的太狠心<br>
+                            你走了以后我还在这里 只是一个被遗弃的道具<br>
+                            如果说你给了太多忘不了的甜蜜 错只错在分开时抱你抱的太用力<br>
+                            我走了以后你还在这里 和他开始了另一场电影
+                        </div>
+                        <div class="audio-label">🎹 Melody:</div>
+                        <audio controls src="Demos/word_edit_melody1.wav"></audio>
+                        <div class="audio-label">🎤 Singing:</div>
+                        <audio controls src="Demos/word_edit_singing1.wav"></audio>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Phrase级编辑 -->
+            <div class="flex-item">
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(135deg, #FF9800, #E65100);">
+                        Phrase-level editing
+                    </div>
+                    <div class="card-body">
+                        <div class="lyrics-box">
+                            <strong>Lyrics:</strong><br><br>
+                            &lt;Verse&gt;<br>
+                            当故事慢慢都被讲成回忆 爱情它渐渐的沦为成伤心<br>
+                            如果剧情早已经是注定 又何必再费力气<br>
+                            曾经的你现在会是在哪里 <span class="modified-text">你是否还记得过去的我们</span><br>
+                            美好的回忆像电影划过 为何就此的放手<br>
+                            &lt;Chorus&gt;<br>
+                            如果说你说爱我时说的那么用心 那么说在你离开我时走的太狠心<br>
+                            你走了以后我还在这里 只是一个被遗弃的道具<br>
+                            如果说你给了太多忘不了的甜蜜 错只错在分开时抱你抱的太用力<br>
+                            我走了以后你还在这里 和他开始了另一场电影
+                        </div>
+                        <div class="audio-label">🎹 Melody:</div>
+                        <audio controls src="Demos/phrase_edit_melody1.wav"></audio>
+                        <div class="audio-label">🎤 Singing:</div>
+                        <audio controls src="Demos/phrase_edit_singing1.wav"></audio>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 第二行: Sentence, Section, Song -->
+        <div class="flex-container">
+            <!-- Sentence级编辑 -->
+            <div class="flex-item">
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(135deg, #9C27B0, #6A1B9A);">
+                        Sentence-level editing
+                    </div>
+                    <div class="card-body">
+                        <div class="lyrics-box">
+                            <strong>Lyrics:</strong><br><br>
+                            &lt;Verse&gt;<br>
+                            当故事慢慢都被讲成回忆 爱情它渐渐的沦为成伤心<br>
+                            如果剧情早已经是注定 又何必再费力气<br>
+                            <span class="modified-text">曾经的你笑着说我是唯一 后来的我哭着信了这命运</span><br>
+                            <span class="modified-text">如果誓言注定会下落不明 又何必说得那么好听</span><br>
+                            &lt;Chorus&gt;<br>
+                            如果说你说爱我时说的那么用心 那么说在你离开我时走的太狠心<br>
+                            你走了以后我还在这里 只是一个被遗弃的道具<br>
+                            如果说你给了太多忘不了的甜蜜 错只错在分开时抱你抱的太用力<br>
+                            我走了以后你还在这里 和他开始了另一场电影
+                        </div>
+                        <div class="audio-label">🎹 Melody:</div>
+                        <audio controls src="Demos/sentence_edit_melody1.wav"></audio>
+                        <div class="audio-label">🎤 Singing:</div>
+                        <audio controls src="Demos/sentence_edit_singing1.wav"></audio>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section级编辑 -->
+            <div class="flex-item">
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(135deg, #E91E63, #AD1457);">
+                        Section-level editing
+                    </div>
+                    <div class="card-body">
+                        <div style="display: flex; gap: 20px;">
+                            <!-- 左侧：第一个Demo -->
+                        <div style="flex: 1;">
+                        <div class="lyrics-box">
+                            <strong>Lyrics:</strong><br><br>
+                            &lt;Verse&gt;<br>
+                            <span class="modified-text">当故事慢慢风干成回忆 爱情也渐渐凝结成伤心
+                            如果剧情早注定是别离 又何必再苦等回音
+                            从前的你现在又在哪里 这一刻你是否还会想起
+                            美好像电影无声地放映 为何却松开了手心</span><br>
+                            &lt;Chorus&gt;<br>
+                            如果说你说爱我时说的那么用心 那么说在你离开我时走的太狠心
+                            你走了以后我还在这里 只是一个被遗弃的道具
+                            如果说你给了太多忘不了的甜蜜 错只错在分开时抱你抱的太用力
+                            我走了以后你还在这里 和他开始了另一场电影
+                        </div>
+                        <div class="audio-label">🎹 Melody:</div>
+                        <audio controls src="Demos/section_edit_melody1.wav"></audio>
+                        <div class="audio-label">🎤 Singing:</div>
+                        <audio controls src="Demos/section_edit_singing1.wav"></audio>
+                    </div>
+                    <div style="flex: 1;">
+                        <div class="lyrics-box">
+                            <strong>Lyrics:</strong><br><br>
+                            &lt;Verse&gt;<br>
+                            当故事慢慢都被讲成回忆 爱情它渐渐的沦为成伤心
+                            如果剧情早已经是注定 又何必再费力气
+                            曾经的你现在会是在哪里 此刻的你是否还在想起
+                            美好的回忆像电影划过 为何就此的放手<br>
+                            &lt;Chorus&gt;<br>
+                            <span class="modified-text">你说爱我时总是说得那么用心 为何离开时你却走得那么狠心
+                            你走了以后我就站在原地 像一个被遗弃的孤单道具
+                            你给过我太多那忘不了的甜蜜 错只错在分开时抱你都太用力
+                            我走了以后你仍守在这里 陪他悄悄上演另一场电影</span>
+                        </div>
+                        <div class="audio-label">🎹 Melody:</div>
+                        <audio controls src="Demos/section_edit_melody1-.wav"></audio>
+                        <div class="audio-label">🎤 Singing:</div>
+                        <audio controls src="Demos/section_edit_singing1-.wav"></audio>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            
+            <!-- Song级编辑 -->
+            <div class="flex-item">
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(135deg, #F44336, #C62828);">
+                        Song-level editing
+                    </div>
+                    <div class="card-body">
+                        <div class="lyrics-box">
+                            <strong>Lyrics:</strong><br><br>
+                            &lt;Verse&gt;<br>
+                            <span class="modified-text">往事它慢慢风干成遗憾 眼泪也渐渐习惯了孤单</span><br>
+                            <span class="modified-text">若缘分早就写好了那答案 又何必再苦苦纠缠</span><br>
+                            <span class="modified-text">此刻的你会停留在哪站 是否偶尔也翻看过片段</span><br>
+                            <span class="modified-text">曾闪光的画面像碎纸飘散 为何你轻易就转弯</span><br>
+                            &lt;Chorus&gt;<br>
+                            <span class="modified-text">若当初你说爱我的语气是那么温暖 为何转身离开时的背影却那么冷淡</span><br>
+                            <span class="modified-text">你走了以后我停在原地等 活成了那一个多余的背景</span><br>
+                            <span class="modified-text">若当初你给了我那么多发光的甜意 错只错在分开时我抱你抱得太用力</span><br>
+                            <span class="modified-text">我走了以后你还在那屋檐 和他写下另一页新的开篇</span><br>
+                        </div>
+                        <div class="audio-label">🎹 Melody:</div>
+                        <audio controls src="Demos/song_edit_melody1.wav"></audio>
+                        <div class="audio-label">🎤 Singing:</div>
+                        <audio controls src="Demos/song_edit_singing1.wav"></audio>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <div style="margin: 30px 0;">
+        <h2 style="text-align: center; margin-bottom: 25px; color: #333;">Demo 2:</h2>
+        <!-- 第一行: Original, Word, Phrase -->
+        <div class="flex-container">
+            <!-- 原始版本 -->
+            <div class="flex-item">
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(135deg, #4CAF50, #2E7D32);">
+                        Original song
+                    </div>
+                    <div class="card-body">
+                        <div class="lyrics-box">
+                            <strong>Lyrics:</strong><br><br>
+                            &lt;Verse&gt;<br>
+                            我真的想要相信你 无关和她暧昧关系<br>
+                            你又何必去苦苦解释 那衣领上的唇印<br>
+                            我真的想好好爱你 爱到不再睁开眼睛<br>
+                            可是在心底总抹不去 你那说谎的表情<br>
+                            &lt;Insertion&gt;<br>
+                            不是不愿清醒 只是脑中太多回忆<br>
+                            何不痛快承认 这一场戏 已到了结局<br>
+                            &lt;Chorus&gt;<br>
+                            别口是心非 掩饰你的罪 反覆安慰 直到我崩溃<br>
+                            越说得甜美 越在我的背后 为所欲为<br>
+                            别口是心非 说已经后悔 你的安慰 只让人心碎<br>
+                            流一滴眼泪 装饰你的慈悲 受骗的是谁
+                        </div>
+                        <div class="audio-label">🎹 Melody:</div>
+                        <audio controls src="Demos/original_melody2.wav"></audio>
+                        <div class="audio-label">🎤 Singing:</div>
+                        <audio controls src="Demos/original_singing2.wav"></audio>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Word级编辑 -->
+            <div class="flex-item">
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(135deg, #2196F3, #1565C0);">
+                        Word-level editing
+                    </div>
+                    <div class="card-body">
+                        <div class="lyrics-box">
+                            <strong>Lyrics:</strong><br><br>
+                            &lt;Verse&gt;<br>
+                            我真的想要相信你 无关和她暧昧关系<br>
+                            你又何必去苦苦解释 那衣领上的唇印<br>
+                            我真的想好好爱你 爱到不再睁开眼睛<br>
+                            可是在心底总抹不去 你那说谎的表情<br>
+                            &lt;Insertion&gt;<br>
+                            不是不愿清醒 只是脑中太多回忆<br>
+                            何不痛快承认 这一场戏 已到了结局<br>
+                            &lt;Chorus&gt;<br>
+                            别口是心非 掩饰你的罪 反覆安慰 直到我崩溃<br>
+                            越说得甜美 越在我的背后 为所欲为<br>
+                            别口是心非 说已经后悔 你的安慰 只让人心碎<br>
+                            流一滴眼泪 装饰你的慈悲 <span class="modified-text">被玩弄</span>的是谁
+                        </div>
+                        <div class="audio-label">🎹 Melody:</div>
+                        <audio controls src="Demos/word_edit_melody2.wav"></audio>
+                        <div class="audio-label">🎤 Singing:</div>
+                        <audio controls src="Demos/word_edit_singing2.wav"></audio>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Phrase级编辑 -->
+            <div class="flex-item">
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(135deg, #FF9800, #E65100);">
+                        Phrase-level editing
+                    </div>
+                    <div class="card-body">
+                        <div class="lyrics-box">
+                            <strong>Lyrics:</strong><br><br>
+                            &lt;Verse&gt;<br>
+                            我真的想要相信你 无关和她暧昧关系<br>
+                            你又何必去苦苦解释 那衣领上的唇印<br>
+                            我真的想好好爱你 <span class="modified-text">爱到不愿再清醒</span><br>
+                            可是在心底总抹不去 你那说谎的表情<br>
+                            &lt;Insertion&gt;<br>
+                            不是不愿清醒 只是脑中太多回忆<br>
+                            何不痛快承认 这一场戏 已到了结局<br>
+                            &lt;Chorus&gt;<br>
+                            别口是心非 掩饰你的罪 反覆安慰 直到我崩溃<br>
+                            越说得甜美 越在我的背后 为所欲为<br>
+                            别口是心非 说已经后悔 你的安慰 只让人心碎<br>
+                            流一滴眼泪 装饰你的慈悲 受骗的是谁
+                        </div>
+                        <div class="audio-label">🎹 Melody:</div>
+                        <audio controls src="Demos/phrase_edit_melody2.wav"></audio>
+                        <div class="audio-label">🎤 Singing:</div>
+                        <audio controls src="Demos/phrase_edit_singing2.wav"></audio>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 第二行: Sentence, Section, Song -->
+        <div class="flex-container">
+            <!-- Sentence级编辑 -->
+            <div class="flex-item">
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(135deg, #9C27B0, #6A1B9A);">
+                        Sentence-level editing
+                    </div>
+                    <div class="card-body">
+                        <div class="lyrics-box">
+                            <strong>Lyrics:</strong><br><br>
+                            &lt;Verse&gt;<br>
+                            我真的想要相信你 无关和她暧昧关系<br>
+                            你又何必去苦苦解释 那衣领上的唇印<br>
+                            我真的想好好爱你 爱到不再睁开眼睛<br>
+                            可是在心底总抹不去 你那说谎的表情<br>
+                            &lt;Insertion&gt;<br>
+                            不是不愿清醒 只是脑中太多回忆<br>
+                            <span class="modified-text">不如就干脆放手 这场梦 早该到尽头</span><br>
+                            &lt;Chorus&gt;<br>
+                            别口是心非 掩饰你的罪 反覆安慰 直到我崩溃<br>
+                            越说得甜美 越在我的背后 为所欲为<br>
+                            别口是心非 说已经后悔 你的安慰 只让人心碎<br>
+                            流一滴眼泪 装饰你的慈悲 受骗的是谁
+                        </div>
+                        <div class="audio-label">🎹 Melody:</div>
+                        <audio controls src="Demos/sentence_edit_melody2.wav"></audio>
+                        <div class="audio-label">🎤 Singing:</div>
+                        <audio controls src="Demos/sentence_edit_singing2.wav"></audio>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section级编辑 -->
+            <div class="flex-item">
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(135deg, #E91E63, #AD1457);">
+                        Section-level editing
+                    </div>
+                    <div class="card-body">
+                        <div class="lyrics-box">
+                            <strong>Lyrics:</strong><br><br>
+                            &lt;Verse&gt;<br>
+                            <span class="modified-text">我多想再信你一场 无关她身上的芬芳</span><br>
+                            <span class="modified-text">你又何必反复说谎 衣领唇印怎么隐藏</span><br>
+                            <span class="modified-text">我多想爱你到天荒 爱到闭眼不再张望</span><br>
+                            <span class="modified-text">可心里有道墙无法忘 是你撒谎时的模样</span><br>
+                            &lt;Insertion&gt;<br>
+                            不是不愿清醒 只是脑中太多回忆<br>
+                            何不痛快承认 这一场戏 已到了结局<br>
+                            &lt;Chorus&gt;<br>
+                            别口是心非 掩饰你的罪 反覆安慰 直到我崩溃<br>
+                            越说得甜美 越在我的背后 为所欲为<br>
+                            别口是心非 说已经后悔 你的安慰 只让人心碎<br>
+                            流一滴眼泪 装饰你的慈悲 受骗的是谁
+                        </div>
+                        <div class="audio-label">🎹 Melody:</div>
+                        <audio controls src="Demos/section_edit_melody2.wav"></audio>
+                        <div class="audio-label">🎤 Singing:</div>
+                        <audio controls src="Demos/section_edit_singing2.wav"></audio>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Song级编辑 -->
+            <div class="flex-item">
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(135deg, #F44336, #C62828);">
+                        Song-level editing
+                    </div>
+                    <div class="card-body">
+                        <div class="lyrics-box">
+                            <strong>Lyrics:</strong><br><br>
+                            &lt;Verse&gt;<br>
+                            <span class="modified-text">我真的快信你以为 无关她那些是与非</span><br>
+                            <span class="modified-text">你又何必反复去挽回 那领口边的香水味</span><br>
+                            <span class="modified-text">我真的想陪你到黑 爱到连梦都不破碎</span><br>
+                            <span class="modified-text">可惜心底总有一根刺 是你那说谎的眼神</span><br>
+                            &lt;Insertion&gt;<br>
+                            <span class="modified-text">不是不懂放手 只是回忆太厚</span><br>
+                            <span class="modified-text">不如干脆认了 这一场梦 早就该剧终</span><br>
+                            &lt;Chorus&gt;<br>
+                            <span class="modified-text">别嘴上甜蜜 藏心里算计 你的欺骗 让我快窒息</span><br>
+                            <span class="modified-text">你说得越美 背对我越虚伪 放肆狼狈</span><br>
+                            <span class="modified-text">别嘴上忏悔 说已经枯萎 你的靠近 只让我更累</span><br>
+                            <span class="modified-text">掉一滴眼泪 装你的慈悲 上当的是谁</span>
+                        </div>
+                        <div class="audio-label">🎹 Melody:</div>
+                        <audio controls src="Demos/song_edit_melody2.wav"></audio>
+                        <div class="audio-label">🎤 Singing:</div>
+                        <audio controls src="Demos/song_edit_singing2.wav"></audio>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div style="margin: 30px 0;">
+        <h2 style="text-align: center; margin-bottom: 25px; color: #333;">Demo 3:</h2>
+        <!-- 第一行: Original, Word, Phrase -->
+        <div class="flex-container">
+            <!-- 原始版本 -->
+            <div class="flex-item">
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(135deg, #4CAF50, #2E7D32);">
+                        Original song
+                    </div>
+                    <div class="card-body">
+                        <div class="lyrics-box">
+                            <strong>Lyrics:</strong><br><br>
+                            &lt;Verse&gt;<br>
+                            流水潺潺牧笛悠悠几许风在吹<br>
+                            古道巷陌看不尽憔悴<br>
+                            残院深深断垣层层斑驳谁的泪<br>
+                            满地荒叶片片沉默了年岁<br>
+                            &lt;Chorus&gt;<br>
+                            道离别离别时重温酒一杯<br>
+                            就算粉身碎骨我也不后悔<br>
+                            说伤悲伤悲后笑着化成灰<br>
+                            北风吹落花美无悔
+                        </div>
+                        <div class="audio-label">🎹 Melody:</div>
+                        <audio controls src="Demos/original_melody3.wav"></audio>
+                        <div class="audio-label">🎤 Singing:</div>
+                        <audio controls src="Demos/original_singing3.wav"></audio>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Word级编辑 -->
+            <div class="flex-item">
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(135deg, #2196F3, #1565C0);">
+                        Word-level editing
+                    </div>
+                    <div class="card-body">
+                        <div class="lyrics-box">
+                            <strong>Lyrics:</strong><br><br>
+                            &lt;Verse&gt;<br>
+                            流水潺潺牧笛悠悠几许风在吹<br>
+                            古道巷陌<span class="modified-text">写满</span>憔悴<br>
+                            残院深深断垣层层斑驳谁的泪<br>
+                            满地荒叶片片沉默了年岁<br>
+                            &lt;Chorus&gt;<br>
+                            道离别离别时重温酒一杯<br>
+                            就算粉身碎骨我也不后悔<br>
+                            说伤悲伤悲后笑着化成灰<br>
+                            北风吹落花美无悔
+                        </div>
+                        <div class="audio-label">🎹 Melody:</div>
+                        <audio controls src="Demos/word_edit_melody3.wav"></audio>
+                        <div class="audio-label">🎤 Singing:</div>
+                        <audio controls src="Demos/word_edit_singing3.wav"></audio>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Phrase级编辑 -->
+            <div class="flex-item">
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(135deg, #FF9800, #E65100);">
+                        Phrase-level editing
+                    </div>
+                    <div class="card-body">
+                        <div class="lyrics-box">
+                            <strong>Lyrics:</strong><br><br>
+                            &lt;Verse&gt;<br>
+                            流水潺潺牧笛悠悠几许风在吹<br>
+                            古道巷陌看不尽憔悴<br>
+                            残院深深断垣层层斑驳谁的泪<br>
+                            满地荒叶片片沉默了年岁<br>
+                            &lt;Chorus&gt;<br>
+                            道离别离别时重温酒一杯<br>
+                            <span class="modified-text">纵然万劫不复我也奉陪</span><br>
+                            说伤悲伤悲后笑着化成灰<br>
+                            北风吹落花美无悔
+                        </div>
+                        <div class="audio-label">🎹 Melody:</div>
+                        <audio controls src="Demos/phrase_edit_melody3.wav"></audio>
+                        <div class="audio-label">🎤 Singing:</div>
+                        <audio controls src="Demos/phrase_edit_singing3.wav"></audio>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 第二行: Sentence, Section, Song -->
+        <div class="flex-container">
+            <!-- Sentence级编辑 -->
+            <div class="flex-item">
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(135deg, #9C27B0, #6A1B9A);">
+                        Sentence-level editing
+                    </div>
+                    <div class="card-body">
+                        <div class="lyrics-box">
+                            <strong>Lyrics:</strong><br><br>
+                            &lt;Verse&gt;<br>
+                            流水潺潺牧笛悠悠几许风在吹<br>
+                            古道巷陌看不尽憔悴<br>
+                            <span class="modified-text">空庭黯黯朽壁离离霜凝谁的悔</span><br>
+                            <span class="modified-text">碎叶萧萧葬送了光阴</span><br>
+                            &lt;Chorus&gt;<br>
+                            道离别离别时重温酒一杯<br>
+                            就算粉身碎骨我也不后悔<br>
+                            说伤悲伤悲后笑着化成灰<br>
+                            北风吹落花美无悔
+                        </div>
+                        <div class="audio-label">🎹 Melody:</div>
+                        <audio controls src="Demos/sentence_edit_melody3.wav"></audio>
+                        <div class="audio-label">🎤 Singing:</div>
+                        <audio controls src="Demos/sentence_edit_singing3.wav"></audio>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section级编辑 -->
+            <div class="flex-item">
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(135deg, #E91E63, #AD1457);">
+                        Section-level editing
+                    </div>
+                    <div class="card-body">
+                        <div class="lyrics-box">
+                            <strong>Lyrics:</strong><br><br>
+                            &lt;Verse&gt;<br>
+                            流水潺潺牧笛悠悠几许风在吹<br>
+                            古道巷陌看不尽憔悴<br>
+                            残院深深断垣层层斑驳谁的泪<br>
+                            满地荒叶片片沉默了年岁<br>
+                            &lt;Chorus&gt;<br>
+                            <span class="modified-text">敬离愁离愁后摔碎这酒杯</span><br>
+                            <span class="modified-text">纵使万劫不复我亦不皱眉</span><br>
+                            <span class="modified-text">将心碎碾成粉扬了随风吹</span><br>
+                            <span class="modified-text">寒枝抖落残红无怨无悔</span>
+                        </div>
+                        <div class="audio-label">🎹 Melody:</div>
+                        <audio controls src="Demos/section_edit_melody3.wav"></audio>
+                        <div class="audio-label">🎤 Singing:</div>
+                        <audio controls src="Demos/section_edit_singing3.wav"></audio>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Song级编辑 -->
+            <div class="flex-item">
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(135deg, #F44336, #C62828);">
+                        Song-level editing
+                    </div>
+                    <div class="card-body">
+                        <div class="lyrics-box">
+                            <strong>Lyrics:</strong><br><br>
+                            &lt;Verse&gt;<br>
+                            <span class="modified-text">流水无声牧笛已冷风吹旧柴门</span><br>
+                            <span class="modified-text">古道尽头爬满憔悴的皱纹</span><br>
+                            <span class="modified-text">残墙半塌断瓦层层苔痕锁泪痕</span><br>
+                            <span class="modified-text">满地荒叶替岁月守着孤坟</span><br>
+                            &lt;Chorus&gt;<br>
+                            <span class="modified-text">若离别先饮尽这杯断肠酒</span><br>
+                            <span class="modified-text">哪怕碎成灰我也绝不回首</span><br>
+                            <span class="modified-text">若伤悲就让我笑着烧成秋</span><br>
+                            <span class="modified-text">北风卷落花不回头也无悔</span>
+                        </div>
+                        <div class="audio-label">🎹 Melody:</div>
+                        <audio controls src="Demos/song_edit_melody3.wav"></audio>
+                        <div class="audio-label">🎤 Singing:</div>
+                        <audio controls src="Demos/song_edit_singing3.wav"></audio>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+	
+</section>
+<br>
+
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.5.0"></script>
