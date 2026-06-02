@@ -303,6 +303,52 @@
                 grid-template-columns: 1fr;
             }
         }
+
+.workflow-wrapper {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 24px;
+    box-sizing: border-box;
+}
+
+.original-media-row {
+    grid-template-columns: 1fr;
+}
+
+.iter-media-box {
+    background: #fafafa;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 12px;
+    min-width: 0;
+    overflow-x: auto;
+}
+
+.iter-media-box audio {
+    width: 100%;
+}
+
+.iter-media-box midi-player,
+.iter-media-box midi-visualizer {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+}
+
+.iter-media-box midi-visualizer {
+    max-height: 240px;
+    overflow-x: auto;
+    overflow-y: auto;
+    background: #fff;
+    border-radius: 6px;
+}
+
+@media (max-width: 800px) {
+    .compare-box,
+    .iter-media-row {
+        grid-template-columns: 1fr;
+    }
+}
 		
     </style>
 </head>
