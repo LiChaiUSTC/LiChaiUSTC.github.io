@@ -705,6 +705,216 @@
         </div>
     </div>
 
+
+    <br>
+    <hr>
+
+    <div class="workflow-wrapper" id="iterative-editing-demo">
+        <header style="text-align: center;font-size: 30pt">
+            <b>Iterative Songwriting Editing Demo</b>
+        </header>
+        <p class="workflow-intro">
+            Starting from the original song, this demo illustrates a practical iterative songwriting workflow.
+            The user progressively refines lyrics, lyric-to-note alignment, rhythm, and pitch, while preserving
+            the surrounding musical context. Each stage provides both audio playback and the corresponding MIDI file.
+        </p>
+
+        <div class="original-lyrics-card">
+            <div class="original-lyrics-title">Original Lyrics</div>
+            <div class="full-lyrics">
+                &lt;Verse&gt;<br>
+                风花雪月孤独终老 春雨淋湿那座荒岛<br>
+                寂寞却把我紧紧围绕<br>
+                玫瑰开在冬季多好 留下美丽瞬间死掉<br>
+				我陷入时间不对的牢<br>
+                怎奈何旧人哭新人笑 泪在掉却忘不了<br>
+                曾经我对你也还算挺重要<br>
+                我只能不打扰别嘲笑 只剩孤独的拥抱<br>
+				轻信你的话会陪我到老
+            </div>
+            <div class="iter-media-row" style="margin-top:14px;">
+                <div class="iter-media-box">
+                    <div class="iter-media-title">🎹 Original Audio</div>
+                    <audio controls src="Demos/OriginalSong.wav"></audio>
+                </div>
+                <div class="iter-media-box">
+                    <div class="iter-media-title">🎼 Original MIDI</div>
+                    <midi-player src="Demos/melody_OriginalSong.mid"
+                                 sound-font visualizer="#midi-vis-iter-0"></midi-player>
+                    <midi-visualizer type="piano-roll" id="midi-vis-iter-0"
+                                     src="Demos/melody_OriginalSong.mid"></midi-visualizer>
+                    <div class="download-links">
+                        <a href="Demos/melody_OriginalSong.mid" download>Download MIDI</a>
+                        <a href="Demos/OriginalSong.wav" download>Download WAV</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="iter-card">
+            <div class="iter-header" style="background: linear-gradient(135deg, #FF9800, #E65100);">
+                Stage 1: Phrase-level Lyric Refinement
+            </div>
+            <div class="iter-body">
+                <div class="edit-line">Edit: refine a local lyric phrase while keeping the surrounding song coherent.</div>
+                <div class="tag-row">
+                    <span>Phrase-level</span><span>Lyrics edited</span><span>Context preserved</span>
+                </div>
+                <div class="compare-box">
+                    <div class="compare-cell">
+                        <div class="compare-label">Original fragment</div>
+                        留下美丽瞬间死掉
+                    </div>
+                    <div class="compare-cell">
+                        <div class="compare-label">Edited fragment</div>
+                        <span class="modified-text">用一瞬美丽换枯萎死掉</span><br>
+                        <span style="color:#777; font-size:10.5pt;">Replace this line with the refined lyric phrase shown in your final demo.</span>
+                    </div>
+                </div>
+                <div class="iter-media-row">
+                    <div class="iter-media-box">
+                        <div class="iter-media-title">🎹 Audio</div>
+                        <audio controls src="Demos/stage1_Phrase-levelLyricRefinement.wav"></audio>
+                    </div>
+                    <div class="iter-media-box">
+                        <div class="iter-media-title">🎼 MIDI</div>
+                        <midi-player src="Demos/melody-stage1_Phrase-levelLyricRefinement.mid"
+                                     sound-font visualizer="#midi-vis-iter-1"></midi-player>
+                        <midi-visualizer type="piano-roll" id="midi-vis-iter-1"
+                                         src="Demos/melody-stage1_Phrase-levelLyricRefinement.mid"></midi-visualizer>
+                        <div class="download-links">
+                            <a href="Demos/melody-stage1_Phrase-levelLyricRefinement.mid" download>Download MIDI</a>
+                            <a href="Demos/stage1_Phrase-levelLyricRefinement.wav" download>Download WAV</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="iter-arrow">↓</div>
+
+        <div class="iter-card">
+            <div class="iter-header" style="background: linear-gradient(135deg, #2196F3, #1565C0);">
+                Stage 2: Word-level Alignment Editing
+            </div>
+            <div class="iter-body">
+                <div class="edit-line">Edit: change one word from one-note alignment to a two-note melismatic realization.</div>
+                <div class="tag-row">
+                    <span>Word-level</span><span>Alignment edited</span><span>Lyrics preserved</span><span>Note density changed</span>
+                </div>
+                <div class="compare-box">
+                    <div class="compare-cell">
+                        <div class="compare-label">Original fragment</div>
+                        开 → one note
+                    </div>
+                    <div class="compare-cell">
+                        <div class="compare-label">Edited fragment</div>
+                        <span class="modified-text">开 → two notes</span>
+                    </div>
+                </div>
+                <div class="iter-media-row">
+                    <div class="iter-media-box">
+                        <div class="iter-media-title">🎹 Audio</div>
+                        <audio controls src="Demos/stage2_Word-levelAlignmentEditing.wav"></audio>
+                    </div>
+                    <div class="iter-media-box">
+                        <div class="iter-media-title">🎼 MIDI</div>
+                        <midi-player src="Demos/melody-stage2_Word-levelAlignmentEditing.mid"
+                                     sound-font visualizer="#midi-vis-iter-2"></midi-player>
+                        <midi-visualizer type="piano-roll" id="midi-vis-iter-2"
+                                         src="Demos/melody-stage2_Word-levelAlignmentEditing.mid"></midi-visualizer>
+                        <div class="download-links">
+                            <a href="Demos/melody-stage2_Word-levelAlignmentEditing.mid" download>Download MIDI</a>
+                            <a href="Demos/stage2_Word-levelAlignmentEditing.wav" download>Download WAV</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="iter-arrow">↓</div>
+
+        <div class="iter-card">
+            <div class="iter-header" style="background: linear-gradient(135deg, #9C27B0, #6A1B9A);">
+                Stage 3: Sentence-level Rhythm Editing
+            </div>
+            <div class="iter-body">
+                <div class="edit-line">Edit: adjust note durations and rhythmic pattern within a sentence.</div>
+                <div class="tag-row">
+                    <span>Sentence-level</span><span>Rhythm edited</span><span>Lyrics preserved</span><span>Pitch contour preserved</span>
+                </div>
+                <div class="compare-box">
+                    <div class="compare-cell">
+                        <div class="compare-label">Original fragment</div>
+                        玫瑰开在冬季多好，用一瞬美丽换枯萎死掉
+                    </div>
+                    <div class="compare-cell">
+                        <div class="compare-label">Edited fragment</div>
+                        <span class="modified-text">Same lyrics with redistributed note durations and local rhythmic pattern.</span>
+                    </div>
+                </div>
+                <div class="iter-media-row">
+                    <div class="iter-media-box">
+                        <div class="iter-media-title">🎹 Audio</div>
+                        <audio controls src="Demos/stage3_Sentence-levelRhythmEditing.wav"></audio>
+                    </div>
+                    <div class="iter-media-box">
+                        <div class="iter-media-title">🎼 MIDI</div>
+                        <midi-player src="Demos/melody-stage3_Sentence-levelRhythmEditing.mid"
+                                     sound-font visualizer="#midi-vis-iter-3"></midi-player>
+                        <midi-visualizer type="piano-roll" id="midi-vis-iter-3"
+                                         src="Demos/melody-stage3_Sentence-levelRhythmEditing.mid"></midi-visualizer>
+                        <div class="download-links">
+                            <a href="Demos/melody-stage3_Sentence-levelRhythmEditing.mid" download>Download MIDI</a>
+                            <a href="Demos/stage3_Sentence-levelRhythmEditing.wav" download>Download WAV</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="iter-arrow">↓</div>
+
+        <div class="iter-card">
+            <div class="iter-header" style="background: linear-gradient(135deg, #E91E63, #AD1457);">
+                Stage 4: Section-level Pitch Editing
+            </div>
+            <div class="iter-body">
+                <div class="edit-line">Edit: refine pitch-level attributes over a larger section while keeping lyrics and rhythm.</div>
+                <div class="tag-row">
+                    <span>Section-level</span><span>Pitch edited</span><span>Lyrics preserved</span><span>Rhythm preserved</span>
+                </div>
+                <div class="compare-box">
+                    <div class="compare-cell">
+                        <div class="compare-label">Original section</div>
+                        Original pitch level, range, and melodic contour.
+                    </div>
+                    <div class="compare-cell">
+                        <div class="compare-label">Edited section</div>
+                        <span class="modified-text">Adjusted pitch level / range / contour with the same lyrical and rhythmic structure.</span>
+                    </div>
+                </div>
+                <div class="iter-media-row">
+                    <div class="iter-media-box">
+                        <div class="iter-media-title">🎹 Audio</div>
+                        <audio controls src="Demos/stage4_Section-level%20PitchEditing.wav"></audio>
+                    </div>
+                    <div class="iter-media-box">
+                        <div class="iter-media-title">🎼 MIDI</div>
+                        <midi-player src="Demos/melody-stage4_Section-level%20PitchEditing.mid"
+                                     sound-font visualizer="#midi-vis-iter-4"></midi-player>
+                        <midi-visualizer type="piano-roll" id="midi-vis-iter-4"
+                                         src="Demos/melody-stage4_Section-level%20PitchEditing.mid"></midi-visualizer>
+                        <div class="download-links">
+                            <a href="Demos/melody-stage4_Section-level%20PitchEditing.mid" download>Download MIDI</a>
+                            <a href="Demos/stage4_Section-level%20PitchEditing.wav" download>Download WAV</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	
 	
 </section>
 <br>
