@@ -1018,17 +1018,7 @@
                 Stage 1: Phrase-level Lyric Refinement
             </div>
             <div class="iter-body">
-                <div class="edit-line">Edit: refine a local lyric phrase while keeping the surrounding song coherent.</div>
-                <div class="compare-box">
-                    <div class="compare-cell">
-                        <div class="compare-label">Original fragment</div>
-                        留下美丽瞬间死掉
-                    </div>
-                    <div class="compare-cell">
-                        <div class="compare-label">Edited fragment</div>
-                        <span class="modified-text">用一瞬美丽换枯萎死掉</span><br>
-                    </div>
-                </div>
+                <div class="edit-line">Edit: polish one lyric phrase in context ("留下美丽瞬间死掉" → "用一瞬美丽换枯萎死掉").</div>
                 <div class="iter-media-row original-media-row">
                     <div class="iter-media-box">
                         <div class="iter-media-title">🎤 Singing</div>
@@ -1052,17 +1042,7 @@
                 Stage 2: Word-level Alignment Editing
             </div>
             <div class="iter-body">
-                <div class="edit-line">Edit: change one word from one-note alignment to a two-note melismatic realization.</div>
-                <div class="compare-box">
-                    <div class="compare-cell">
-                        <div class="compare-label">Original fragment</div>
-                        开 → one note
-                    </div>
-                    <div class="compare-cell">
-                        <div class="compare-label">Edited fragment</div>
-                        <span class="modified-text">开 → two notes</span>
-                    </div>
-                </div>
+                <div class="edit-line"> Edit: change the alignment of one word ("开") from one-to-one lyric-to-note alignment (one note) to one-to-many alignment (two notes).</div>
                 <div class="iter-media-row original-media-row">
                     <div class="iter-media-box original-media-row">
                         <div class="iter-media-title">🎤 Singing</div>
@@ -1086,17 +1066,7 @@
                 Stage 3: Sentence-level Rhythm Editing
             </div>
             <div class="iter-body">
-                <div class="edit-line">Edit: adjust note durations and rhythmic pattern within a sentence.</div>
-                <div class="compare-box">
-                    <div class="compare-cell">
-                        <div class="compare-label">Original fragment</div>
-                        玫瑰开在冬季多好，用一瞬美丽换枯萎死掉
-                    </div>
-                    <div class="compare-cell">
-                        <div class="compare-label">Edited fragment</div>
-                        <span class="modified-text">Same lyrics with redistributed note durations and local rhythmic pattern.</span>
-                    </div>
-                </div>
+                <div class="edit-line">Edit: adjust note durations and rhythmic pattern within a sentence ("玫瑰开在冬季多好，用一瞬美丽换枯萎死掉").</div>
                 <div class="iter-media-row original-media-row">
                     <div class="iter-media-box">
                         <div class="iter-media-title">🎤 Singing</div>
@@ -1120,17 +1090,7 @@
                 Stage 4: Section-level Pitch Editing
             </div>
             <div class="iter-body">
-                <div class="edit-line">Edit: refine pitch-level attributes over a larger section while keeping lyrics and rhythm.</div>
-                <div class="compare-box">
-                    <div class="compare-cell">
-                        <div class="compare-label">Original section</div>
-                        Original pitch level, range, and melodic contour.
-                    </div>
-                    <div class="compare-cell">
-                        <div class="compare-label">Edited section</div>
-                        <span class="modified-text">Adjusted pitch level / range / contour with the same lyrical and rhythmic structure.</span>
-                    </div>
-                </div>
+                <div class="edit-line">Edit: adjust the chorus pitch while preserving the lyrics and rhythm.</div>
                 <div class="iter-media-row original-media-row">
                     <div class="iter-media-box">
                         <div class="iter-media-title">🎤 Singing</div>
@@ -1141,7 +1101,7 @@
                         <midi-player src="Demos/melody-stage4_Section-levelPitchEditing.mid"
                                      sound-font visualizer="#midi-vis-iter-4"></midi-player>
                         <midi-visualizer type="piano-roll" id="midi-vis-iter-4"
-                                         src="Demos/melody-stage4_Section-level%20PitchEditing.mid"></midi-visualizer>
+                                         src="Demos/melody-stage4_Section-levelPitchEditing.mid"></midi-visualizer>
                     </div>
                 </div>
             </div>
